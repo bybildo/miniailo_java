@@ -255,6 +255,7 @@ public class DbService {
         showOrdersGeneric(sql, staffId, "Замовлення офіціанта ID: " + staffId);
     }
 
+    // Універсальний метод для показу замовлень
     private void showOrdersGeneric(String sql, int paramId, String title) {
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, paramId);
@@ -264,6 +265,94 @@ public class DbService {
                     System.out.printf("Замовлення Id: %d | Сума: %.2f | Дата: %s\n",
                             rs.getInt("id"), rs.getDouble("total_amount"), rs.getTimestamp("order_date"));
                 }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Показати топ 3 напої за останній місяць
+    public void showTop3DrinksLastMonth() {
+        String sql = "SELECT d.name, COUNT(o.id) as order_count " +
+                "FROM orders o JOIN drinks d ON o.drink_id = d.id " +
+                "WHERE o.order_date >= CURRENT_DATE - INTERVAL '1 month' " +
+                "GROUP BY d.id, d.name ORDER BY order_count DESC LIMIT 3";
+        try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+            System.out.println("Топ 3 напої за останній місяць:");
+            while (rs.next()) {
+                System.out.printf("Напій: %s | Кількість замовлень: %d\n", rs.getString("name"), rs.getInt("order_count"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Показати топ 5 десертів за останні 10 днів
+    public void showTop5DessertsLast10Days() {
+        String sql = "SELECT d.name, COUNT(o.id) as order_count " +
+                "FROM orders o JOIN desserts d ON o.dessert_id = d.id " +
+                "WHERE o.order_date >= CURRENT_DATE - INTERVAL '10 days' " +
+                "GROUP BY d.id, d.name ORDER BY order_count DESC LIMIT 5";
+        try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+            System.out.println("Топ 5 десертів за останні 10 днів:");
+            while (rs.next()) {
+                System.out.printf("Десерт: %s | Кількість замовлень: %d\n", rs.getString("name"), rs.getInt("order_count"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Показати середню суму замовлення за конкретну дату
+    public void showAverageOrderSumByDate(LocalDate date) {
+        String sql = "SELECT AVG(total_amount) as avg_sum FROM orders WHERE DATE(order_date) = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setDate(1, Date.valueOf(date));
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next() && rs.getObject("avg_sum") != null) {
+                    System.out.printf("Середня сума замовлення за %s: %.2f грн\n", date, rs.getDouble("avg_sum"));
+                } else {
+                    System.out.println("Замовлень на " + date + " немає.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Показати найбільші замовлення за конкретну дату
+    public void showLargestOrdersByDate(LocalDate date) {
+        String sql = "SELECT * FROM orders WHERE DATE(order_date) = ? AND total_amount = " +
+                "(SELECT MAX(total_amount) FROM orders WHERE DATE(order_date) = ?)";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setDate(1, Date.valueOf(date));
+            pstmt.setDate(2, Date.valueOf(date));
+            try (ResultSet rs = pstmt.executeQuery()) {
+                System.out.println("Найбільші замовлення за " + date + ":");
+                while (rs.next()) {
+                    System.out.printf("Id замовлення: %d | Сума: %.2f грн\n", rs.getInt("id"), rs.getDouble("total_amount"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Показати постійних тих, хто відвідував заклад 3 і більше разів за останній тиждень
+    public void showLoyalCustomers() {
+        String sql = "SELECT c.full_name, COUNT(o.id) as visits " +
+                "FROM orders o JOIN customers c ON o.customer_id = c.id " +
+                "WHERE o.order_date >= CURRENT_DATE - INTERVAL '7 days' " +
+                "GROUP BY c.id, c.full_name HAVING COUNT(o.id) >= 3";
+        try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+            System.out.println("Постійні клієнти:");
+            boolean found = false;
+            while (rs.next()) {
+                found = true;
+                System.out.printf("Клієнт: %s | Кількість візитів: %d\n", rs.getString("full_name"), rs.getInt("visits"));
+            }
+            if (!found) {
+                System.out.println("Постійних клієнтів за останній тиждень не знайдено.");
             }
         } catch (SQLException e) {
             e.printStackTrace();

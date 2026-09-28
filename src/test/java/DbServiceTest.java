@@ -105,6 +105,33 @@ public class DbServiceTest {
         });
     }
 
+    void testOrderAnalyticsMethods() {
+        assertDoesNotThrow(() -> {
+            dbService.addCustomer("Тестовий Клієнт", LocalDate.of(1990, 1, 1), "0990001122", "Київ", 0);
+            int customerId = getLastInsertId("customers");
+
+            dbService.addStaff("Тестовий Бариста", "0990003344", "Київ", "Бариста");
+            int staffId = getLastInsertId("staff");
+
+            dbService.addDrink("Макіято", 60.0);
+            int drinkId = getLastInsertId("drinks");
+
+            dbService.addDessert("Тірамісу", 90.0);
+            int dessertId = getLastInsertId("desserts");
+
+            dbService.addOrderCoffee(customerId, staffId, drinkId, 60.0);
+            dbService.addOrderCoffee(customerId, staffId, drinkId, 60.0);
+            dbService.addOrderDessert(customerId, staffId, dessertId, 90.0);
+
+            dbService.showTop3DrinksLastMonth();
+            dbService.showTop5DessertsLast10Days();
+            dbService.showAverageOrderSumByDate(LocalDate.now());
+            dbService.showLargestOrdersByDate(LocalDate.now());
+            dbService.showLoyalCustomers();
+
+        }, "Аналітичні методи не повинні викидати винятків при виконанні");
+    }
+
     @AfterAll
     static void tearDown() {
         if (connection != null) {
