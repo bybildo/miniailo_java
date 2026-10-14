@@ -1,0 +1,150 @@
+[
+  {
+    "id": "asus",
+    "name": "ASUS",
+    "country": "Тайвань",
+    "logo": "images/asus_logo.png",
+    "employees": 14700,
+    "description": "ASUSTeK Computer Inc. — тайванська багатонаціональна компанія з виробництва комп'ютерного обладнання та електроніки.",
+    "news": [
+      {
+        "title": "ASUS презентує новий ROG Zephyrus G16",
+        "description": "Оновлена лінійка ігрових ноутбуків отримала OLED-дисплеї та процесори Intel Core Ultra.",
+        "image": "images/asus_news1.jpg"
+      },
+      {
+        "title": "Екологічні ініціативи ASUS 2026",
+        "description": "Компанія оголосила про перехід на 100% перероблений пластик у корпусах Zenbook.",
+        "image": "images/asus_news2.jpg"
+      }
+    ],
+    "models": [
+      {
+        "name": "ASUS ROG Zephyrus G16",
+        "description": "Ультратонкий ігровий ноутбук з відеокартою RTX 4080 та OLED екраном 240Гц.",
+        "image": "images/asus_model1.jpg"
+      },
+      {
+        "name": "ASUS Zenbook 14 OLED",
+        "description": "Легкий та потужний преміальний ультрабук для щоденної продуктивної роботи.",
+        "image": "images/asus_model2.jpg"
+      },
+      {
+        "name": "ASUS TUF Gaming A15",
+        "description": "Надійний бюджетний ігровий ноутбук із військовим стандартом міцності MIL-STD-810H.",
+        "image": "images/asus_model3.jpg"
+      }
+    ]
+  },
+  {
+    "id": "lenovo",
+    "name": "Lenovo",
+    "country": "Китай / США",
+    "logo": "images/lenovo_logo.png",
+    "employees": 75000,
+    "description": "Lenovo Group Limited — світовий лідер у галузі персональних комп'ютерів та інноваційних технологій.",
+    "news": [
+      {
+        "title": "Lenovo випускає ThinkPad X1 Carbon Gen 12",
+        "description": "Легендарний бізнес-ноутбук став ще легшим та отримав клавіатуру з покращеною тактильністю.",
+        "image": "images/lenovo_news1.jpg"
+      },
+      {
+        "title": "Концепт прозорого ноутбука Lenovo",
+        "description": "На виставці MWC Lenovo вразила публіку прототипом з прозорим Micro-LED екраном.",
+        "image": "images/lenovo_news2.jpg"
+      }
+    ],
+    "models": [
+      {
+        "name": "Lenovo ThinkPad X1 Carbon",
+        "description": "Преміальний бізнес-ноутбук із вуглеволокна для максимальної надійності.",
+        "image": "images/lenovo_model1.jpg"
+      },
+      {
+        "name": "Lenovo Legion Pro 7i",
+        "description": "Флагманський ігровий ноутбук з рідинним охолодженням та RTX 4090.",
+        "image": "images/lenovo_model2.jpg"
+      },
+      {
+        "name": "Lenovo Yoga Slim 7x",
+        "description": "Ультрабук на базі ARM-процесора Snapdragon X Elite з автономністю до 22 годин.",
+        "image": "images/lenovo_model3.jpg"
+      }
+    ]
+  },
+  {
+    "id": "dell",
+    "name": "Dell Technologies",
+    "country": "США",
+    "logo": "images/dell_logo.png",
+    "employees": 133000,
+    "description": "Dell — американська корпорація, один із найбільших розробників і виробників комп'ютерів у світі.",
+    "news": [
+      {
+        "title": "Оновлення серії Dell XPS 2026",
+        "description": "Dell уніфікувала дизайн лінійки XPS, додавши сенсорну панель функціональних клавіш.",
+        "image": "images/dell_news1.jpg"
+      },
+      {
+        "title": "Dell розширює сервіси штучного інтелекту",
+        "description": "Нові робочі станції Dell Precision отримали спеціалізовані NPU для прискорення штучного інтелекту.",
+        "image": "images/dell_news2.jpg"
+      }
+    ],
+    "models": [
+      {
+        "name": "Dell XPS 16",
+        "description": "Флагманський ноутбук для творців контенту з 4K OLED-екраном та мінімалістичним дизайном.",
+        "image": "images/dell_model1.jpg"
+      },
+      {
+        "name": "Dell Alienware m18",
+        "description": "Безкомпромісна ігрова станція з 18-дюймовим дисплеєм та максимальною продуктивністю.",
+        "image": "images/dell_model2.jpg"
+      },
+      {
+        "name": "Dell Latitude 7440",
+        "description": "Корпоративний ноутбук із вбудованими системами захисту даних та корпоративною підтримкою.",
+        "image": "images/dell_model3.jpg"
+      }
+    ]
+  },
+  {
+    "id": "apple",
+    "name": "Apple Inc.",
+    "country": "США",
+    "logo": "images/apple_logo.png",
+    "employees": 161000,
+    "description": "Apple Inc. — американська технологічна компанія, відома своїми інноваційними пристроями MacBook та операційною системою macOS.",
+    "news": [
+      {
+        "title": "Анонс чипів сімейства Apple M4",
+        "description": "Нове покоління власних процесорів Apple демонструє рекордну продуктивність на ват.",
+        "image": "images/apple_news1.jpg"
+      },
+      {
+        "title": "Apple Intelligence в macOS",
+        "description": "Нові функції штучного інтелекту інтегровані безпосередньо в систему для всіх Mac із чипами Apple Silicon.",
+        "image": "images/apple_news2.jpg"
+      }
+    ],
+    "models": [
+      {
+        "name": "MacBook Air 13 (M3)",
+        "description": "Найпопулярніший тонкий і легкий ноутбук у світі без вентиляторів охолодження.",
+        "image": "images/apple_model1.jpg"
+      },
+      {
+        "name": "MacBook Pro 16 (M3 Max)",
+        "description": "Професійний ноутбук для відеомонтажу, 3D-графіки та розробки програмного забезпечення.",
+        "image": "images/apple_model2.jpg"
+      },
+      {
+        "name": "MacBook Air 15 (M3)",
+        "description": "Ідеальний баланс великого екрана, високої автономності та компактного корпусу.",
+        "image": "images/apple_model3.jpg"
+      }
+    ]
+  }
+]
