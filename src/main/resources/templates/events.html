@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="uk">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="uk">
 <head>
     <meta charset="UTF-8">
     <title>Події та квитки</title>
@@ -10,10 +11,23 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
     <div class="container">
         <a class="navbar-brand" th:href="@{/events}">TicketService</a>
-        <div class="navbar-nav">
+        <div class="navbar-nav me-auto">
             <a class="nav-link active" th:href="@{/events}">Події</a>
-            <a class="nav-link" th:href="@{/events/new}">+ Створити подію</a>
-            <a class="nav-link" th:href="@{/customers}">Покупці</a>
+            <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/my-tickets}">Мої квитки</a>
+            <a class="nav-link" sec:authorize="hasRole('ADMIN')" th:href="@{/events/new}">+ Створити подію</a>
+            <a class="nav-link" sec:authorize="hasRole('ADMIN')" th:href="@{/customers}">Покупці</a>
+        </div>
+
+        <!-- Блок авторизації (вхід / реєстрація / вихід) -->
+        <div class="d-flex align-items-center gap-2">
+            <span class="text-light small" sec:authorize="isAuthenticated()">
+                <strong sec:authentication="name">user@gmail.com</strong>
+            </span>
+            <a sec:authorize="isAnonymous()" th:href="@{/login}" class="btn btn-outline-light btn-sm">Увійти</a>
+            <a sec:authorize="isAnonymous()" th:href="@{/register}" class="btn btn-warning btn-sm">Реєстрація</a>
+            <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post" class="m-0">
+                <button type="submit" class="btn btn-outline-danger btn-sm">Вийти</button>
+            </form>
         </div>
     </div>
 </nav>
@@ -44,14 +58,14 @@
         <div>
             <a th:if="${!showAll}" th:href="@{/events(showAll=true)}" class="btn btn-outline-secondary btn-sm">Показати всі</a>
             <a th:if="${showAll}" th:href="@{/events(showAll=false)}" class="btn btn-outline-secondary btn-sm">Тільки майбутні</a>
-            <a th:href="@{/events/new}" class="btn btn-success btn-sm">+ Нова подія</a>
+            <a sec:authorize="hasRole('ADMIN')" th:href="@{/events/new}" class="btn btn-success btn-sm">+ Нова подія</a>
         </div>
     </div>
 
     <!-- Таблиця подій -->
     <div class="card shadow-sm">
         <div class="card-body p-0">
-            <table class="table table-hover mb-0">
+            <table class="table table-hover mb-0 align-middle">
                 <thead class="table-light">
                 <tr>
                     <th>ID</th>
@@ -65,7 +79,7 @@
                 </thead>
                 <tbody>
                 <tr th:if="${#lists.isEmpty(events)}">
-                    <td colspan="7" class="text-center py-4 text-muted">Подій поки немає. Створіть першу подію!</td>
+                    <td colspan="7" class="text-center py-4 text-muted">Подій поки немає.</td>
                 </tr>
                 <tr th:each="event : ${events}">
                     <td th:text="${event.id}">1</td>
@@ -74,10 +88,13 @@
                     <td th:text="${event.place.name}">Палац Спорту</td>
                     <td th:text="${event.place.address}">Київ</td>
                     <td th:text="${#lists.size(event.tickets)}">100</td>
-                    <td>
+                    <td class="d-flex gap-2">
                         <a th:href="@{/tickets/event/{id}(id=${event.id})}" class="btn btn-sm btn-outline-primary">
                             Вільні квитки
                         </a>
+                        <form sec:authorize="hasRole('ADMIN')" th:action="@{/events/delete/{id}(id=${event.id})}" method="post" class="m-0">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Видалити</button>
+                        </form>
                     </td>
                 </tr>
                 </tbody>

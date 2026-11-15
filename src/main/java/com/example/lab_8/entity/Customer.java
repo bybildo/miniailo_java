@@ -29,4 +29,11 @@ public class Customer {
 
     @OneToMany(mappedBy = "customer")
     private List<Ticket> tickets = new ArrayList<>();
+
+    @Column(nullable = false)
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role = Role.ROLE_USER;
 }

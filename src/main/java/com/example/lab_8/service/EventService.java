@@ -82,4 +82,12 @@ public class EventService {
         return eventRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Подію з ID " + id + " не знайдено"));
     }
+
+    @Transactional
+    public void deleteEvent(Long id) {
+        if (!eventRepository.existsById(id)) {
+            throw new IllegalArgumentException("Подію з ID " + id + " не знайдено");
+        }
+        eventRepository.deleteById(id);
+    }
 }

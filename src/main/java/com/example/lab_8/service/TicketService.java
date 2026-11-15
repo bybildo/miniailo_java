@@ -28,7 +28,7 @@ public class TicketService {
     }
 
     @Transactional
-    public Ticket assignTicketToCustomer(Long ticketId, Long customerId) {
+    public Ticket assignTicketToCustomerByEmail(Long ticketId, String customerEmail) {
         Ticket ticket = ticketRepository.findById(ticketId)
                 .orElseThrow(() -> new IllegalArgumentException("Квиток з ID " + ticketId + " не знайдено"));
 
@@ -36,8 +36,8 @@ public class TicketService {
             throw new IllegalStateException("Квиток №" + ticket.getNumber() + " вже продано!");
         }
 
-        Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new IllegalArgumentException("Покупця з ID " + customerId + " не знайдено"));
+        Customer customer = customerRepository.findByEmailIgnoreCase(customerEmail)
+                .orElseThrow(() -> new IllegalArgumentException("Покупця з email " + customerEmail + " не знайдено"));
 
         ticket.setCustomer(customer);
         ticket.setStatus(TicketStatus.SOLD);

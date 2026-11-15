@@ -25,7 +25,7 @@ public class CustomerController {
     @PostMapping("/create")
     public String createCustomer(@ModelAttribute("newCustomer") Customer customer, RedirectAttributes redirectAttributes) {
         try {
-            customerService.createCustomer(customer);
+            customerService.registerCustomer(customer);
             redirectAttributes.addFlashAttribute("successMessage", "Покупця успішно зареєстровано!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());

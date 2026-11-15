@@ -12,14 +12,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequiredArgsConstructor
 public class EventController {
+
     private final EventService eventService;
 
     @GetMapping({"/", "/events"})
     public String listEvents(@RequestParam(required = false, defaultValue = "false") boolean showAll, Model model) {
-        if (showAll)
-            model.addAttribute("events", eventService.getAllEvents());
-        else
-            model.addAttribute("events", eventService.getUpcomingEvents());
+        model.addAttribute("events", showAll ? eventService.getAllEvents() : eventService.getUpcomingEvents());
         model.addAttribute("showAll", showAll);
         return "events";
     }
@@ -34,7 +32,7 @@ public class EventController {
     }
 
     @PostMapping("/events/create")
-    public String createEvent(@ModelAttribute("eventDto") EventCreationDTO dto, RedirectAttributes redirectAttributes) {
+    public String createEvent(@ModelAttribute("eventDto") EventCreationDTO dto,RedirectAttributes redirectAttributes) {
         try {
             eventService.createEvent(dto);
             redirectAttributes.addFlashAttribute("successMessage", "Подію та квитки успішно створено!");
@@ -43,5 +41,16 @@ public class EventController {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             return "redirect:/events/new";
         }
+    }
+
+    @PostMapping("/events/delete/{id}")
+    public String deleteEvent(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            eventService.deleteEvent(id);
+            redirectAttributes.addFlashAttribute("successMessage", "Подію видалено!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        return "redirect:/events";
     }
 }
